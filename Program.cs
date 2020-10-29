@@ -11,13 +11,17 @@ namespace Personnummer3
     {
         static void Main(string[] args)
         {
-            DrawMenu();
+            
             bool repeat = true;
+            //Loop for input
             while (repeat)
             {
                 try
                 {
+                    DrawMenu();
                     string userInput = Console.ReadLine();
+                   
+                    //Check for valid input
                     ValidAmount(userInput);
                     ValidYear(userInput);                    
                     ValidMonth(userInput);
@@ -30,13 +34,19 @@ namespace Personnummer3
                     Console.WriteLine("*************************");
                     Console.WriteLine("* Ogiltigt personnummer *");
                     Console.WriteLine("*************************");
+                    
                 }
 
                 Console.Write("Prova igen? Y/N: ");
                 string go = Console.ReadLine();
                 if (go.ToUpper() != "Y")                
                 {
+                    //break
                     repeat = false;
+                }
+                else
+                {
+                    Console.Clear();
                 }
             }
         }
@@ -85,7 +95,7 @@ namespace Personnummer3
                 return false;
             }              
         }
-        /*=====Only used in ValidDay=======*/
+        //=====Only used in ValidDay=======
         static bool IsLeapYear(string userInput)
         {
             string y = userInput.Substring(0, 4);
@@ -160,8 +170,9 @@ namespace Personnummer3
         }
         static bool ValidControlNum(string userInput)
         {
-            string cnum = userInput.Substring(8, 4);
-            if (int.Parse(cnum) > 1111)
+            string num = userInput.Substring(8, 4);
+            int cnum = int.Parse(num);
+            if (cnum > 1111)
             {
                 return true;
             }
@@ -172,8 +183,9 @@ namespace Personnummer3
         }
         static bool Gender(string userInput)
         {
-            string genNum = userInput.Substring(10, 1);
-            if (int.Parse(genNum) % 2 == 0)
+            string num = userInput.Substring(10, 1);
+            int genNum = int.Parse(num);
+            if (genNum % 2 == 0)
             {
                 return false;
             }
@@ -181,7 +193,6 @@ namespace Personnummer3
             {
                 return true;
             }
-
         }
         static void Output(string userInput)
         {
