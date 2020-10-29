@@ -13,20 +13,21 @@ namespace Personnummer3
         {
             
             bool repeat = true;
-            //Loop for input
+            //Loop the input when its not valid
             while (repeat)
             {
                 try
                 {
                     DrawMenu();
+                    
+                    //input from user
                     string userInput = Console.ReadLine();
                    
                     //Check for valid input
                     ValidAmount(userInput);
                     ValidYear(userInput);                    
                     ValidMonth(userInput);
-                    ValidDay(userInput);
-                    ValidControlNum(userInput);
+                    ValidDay(userInput);                    
                     Output(userInput);
                 }
                 catch
@@ -34,23 +35,22 @@ namespace Personnummer3
                     Console.WriteLine("*************************");
                     Console.WriteLine("* Ogiltigt personnummer *");
                     Console.WriteLine("*************************");
-                    
                 }
-
+       
                 Console.Write("Prova igen? Y/N: ");
                 string go = Console.ReadLine();
                 if (go.ToUpper() != "Y")                
                 {
-                    //break
+                    //Breaks the loop
                     repeat = false;
                 }
                 else
                 {
+                    //Clears console when retrying
                     Console.Clear();
                 }
             }
         }
-
         static bool ValidAmount(string userInput)
         {
             int amount = 0;
@@ -58,6 +58,7 @@ namespace Personnummer3
             {
                 amount += 1;
             }
+            //Check if input is 12 numbers
             if (amount != 12)
             {
                 return false;
@@ -69,10 +70,10 @@ namespace Personnummer3
         }
         static bool ValidYear(string userInput)
         {
-            string y = userInput.Substring(0, 4);
-            int year = int.Parse(y);
+            string year = userInput.Substring(0, 4);
+            int y = int.Parse(year);
             
-            if (year >= 1753 && year <= 2020)
+            if (y >= 1753 && y <= 2020)
             {
                 return true;
             }
@@ -83,10 +84,10 @@ namespace Personnummer3
         }
         static bool ValidMonth(string userInput)
         {
-            string m = userInput.Substring(4, 2);
-            int month = int.Parse(m);
+            string month = userInput.Substring(4, 2);
+            int m = int.Parse(month);
             
-            if (month >= 1 && month <= 12)
+            if (m >= 1 && m <= 12)
             {
                 return true;
             }
@@ -94,14 +95,13 @@ namespace Personnummer3
             {
                 return false;
             }              
-        }
-        //=====Only used in ValidDay=======
+        }       
         static bool IsLeapYear(string userInput)
         {
-            string y = userInput.Substring(0, 4);
-            int year = int.Parse(y);
+            string year = userInput.Substring(0, 4);
+            int y = int.Parse(year);
 
-            if (year % 400 == 0 || year % 100 != 0 && year % 4 == 0)
+            if (y % 400 == 0 || y % 100 != 0 && y % 4 == 0)
             {
                 return true;
             }
@@ -115,15 +115,20 @@ namespace Personnummer3
             string year = userInput.Substring(0, 4);
             string month = userInput.Substring(4, 2);
             string day = userInput.Substring(6, 2);           
+            
+            //Array of numbers that match userinput
             int[] month31days = { 1, 3, 5, 7, 8, 10, 12 };
             int[] month30days = { 4, 6, 9, 11 };
             int[] feb = { 2 };
 
+            //Day can't be lower than one
             if (int.Parse(day) < 1)
             {
                 return false;
             }
-
+            
+            //Checks if the Substring for month matches any of the for-loops
+            //Turning it false if second condition is met
             for (int i = 0; i < month31days.Length; i++)
             {
                 if (month31days[i] == int.Parse(month))
@@ -134,7 +139,6 @@ namespace Personnummer3
                     }
                 }
             }
- 
             for (int i = 0; i < month30days.Length; i++)
             {
                 if (month30days[i] == int.Parse(month))
@@ -145,7 +149,6 @@ namespace Personnummer3
                     }
                 }
             }
-         
             for (int i = 0; i < feb.Length; i++)
             {
                 if (feb[i] == int.Parse(month))
@@ -168,21 +171,9 @@ namespace Personnummer3
             }
             return true;
         }
-        static bool ValidControlNum(string userInput)
-        {
-            string num = userInput.Substring(8, 4);
-            int cnum = int.Parse(num);
-            if (cnum > 1111)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }               
-        }
         static bool Gender(string userInput)
         {
+            //
             string num = userInput.Substring(10, 1);
             int genNum = int.Parse(num);
             if (genNum % 2 == 0)
@@ -196,7 +187,7 @@ namespace Personnummer3
         }
         static void Output(string userInput)
         {
-            if (ValidAmount(userInput) && ValidYear(userInput) && ValidMonth(userInput) && ValidDay(userInput) && ValidControlNum(userInput))
+            if (ValidAmount(userInput) && ValidYear(userInput) && ValidMonth(userInput) && ValidDay(userInput))
             {
                 Console.WriteLine("*************************");
                 Console.WriteLine("* Giltigt personnummer  *");
