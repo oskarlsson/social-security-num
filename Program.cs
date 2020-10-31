@@ -11,23 +11,22 @@ namespace Personnummer3
     {
         static void Main(string[] args)
         {
-            
             bool repeat = true;
-            //Loop the input when its not valid
+            //Loop the input
             while (repeat)
             {
                 try
                 {
                     DrawMenu();
-                    
-                    //input from user
+
+                    //Input from user
                     string userInput = Console.ReadLine();
-                   
+
                     //Check for valid input
                     ValidAmount(userInput);
-                    ValidYear(userInput);                    
+                    ValidYear(userInput);
                     ValidMonth(userInput);
-                    ValidDay(userInput);                    
+                    ValidDay(userInput);
                     Output(userInput);
                 }
                 catch
@@ -36,10 +35,10 @@ namespace Personnummer3
                     Console.WriteLine("* Ogiltigt personnummer *");
                     Console.WriteLine("*************************");
                 }
-       
+
                 Console.Write("Prova igen? Y/N: ");
                 string go = Console.ReadLine();
-                if (go.ToUpper() != "Y")                
+                if (go.ToUpper() != "Y")
                 {
                     //Breaks the loop
                     repeat = false;
@@ -58,7 +57,7 @@ namespace Personnummer3
             foreach (char num in userInput)
             {
                 amount += 1;
-            }           
+            }
             //Returns false if amount of chars in input is not equal to 12
             if (amount != 12)
             {
@@ -67,13 +66,13 @@ namespace Personnummer3
             else
             {
                 return true;
-            }             
+            }
         }
         static bool ValidYear(string userInput)
         {
             //Picks and converts the year from the input to interger
             string year = userInput.Substring(0, 4);
-            int y = int.Parse(year);           
+            int y = int.Parse(year);
             //Return true if year is within range
             if (y >= 1753 && y <= 2020)
             {
@@ -82,7 +81,7 @@ namespace Personnummer3
             else
             {
                 return false;
-            }              
+            }
         }
         static bool ValidMonth(string userInput)
         {
@@ -97,8 +96,8 @@ namespace Personnummer3
             else
             {
                 return false;
-            }              
-        }       
+            }
+        }
         static bool IsLeapYear(string userInput)
         {
             //Picks and converts the year from the input to interger
@@ -117,37 +116,26 @@ namespace Personnummer3
         static bool ValidDay(string userInput)
         {
             //Picks the year, month and day to substrings
-            //string year is only used in the IsLeapYear method so it does not require conversion
+            //<string year is only used in the IsLeapYear method so it does not require conversion>
             string year = userInput.Substring(0, 4);
             string m = userInput.Substring(4, 2);
             int month = int.Parse(m);
             string d = userInput.Substring(6, 2);
             int day = int.Parse(d);
-            
-            //Array of numbers that match userinput for month to the valid amount of days
-            int[] month31days = { 1, 3, 5, 7, 8, 10, 12 };
-            int[] month30days = { 4, 6, 9, 11 };
-            int[] feb = { 2 };
 
-            
-            //Day can't be lower than one
-            if (day < 1)
+            //Array of numbers that match userinput for months with 30 days
+            int[] month30days = { 4, 6, 9, 11 };
+            //No need for array since february is the one case with less than 30 days
+            int feb = 2;
+
+            //Day can't be lower than 1 or higher than 31
+            if (day < 1 && day > 31)
             {
                 return false;
             }
-            
-            //Checks if the Substring for month matches any of the for-loops
-            //Turning it false if second condition is met
-            for (int i = 0; i < month31days.Length; i++)
-            {
-                if (month31days[i] == month)
-                {
-                    if (day > 31)
-                    {
-                        return false;
-                    }
-                }
-            }
+
+            //Checks if the Substring for month matches the array 
+            //Turning it false if second condition is met            
             for (int i = 0; i < month30days.Length; i++)
             {
                 if (month30days[i] == month)
@@ -158,23 +146,21 @@ namespace Personnummer3
                     }
                 }
             }
-            for (int i = 0; i < feb.Length; i++)
+
+            if (feb == month)
             {
-                if (feb[i] == month)
+                if (IsLeapYear(year) == true)
                 {
-                    if (IsLeapYear(year) == true)
+                    if (day > 29)
                     {
-                        if (day > 29)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
-                    else
+                }
+                else
+                {
+                    if (day > 28)
                     {
-                        if (day > 28)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
             }
@@ -210,14 +196,14 @@ namespace Personnummer3
                 {
                     Console.WriteLine("*    Juridisk kvinna    *");
                     Console.WriteLine("*************************");
-                }                   
+                }
             }
             else
             {
                 Console.WriteLine("*************************");
                 Console.WriteLine("* Ogiltigt personnummer *");
                 Console.WriteLine("*************************");
-            }       
+            }
         }
         static void DrawMenu()
         {
